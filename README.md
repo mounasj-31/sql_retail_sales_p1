@@ -41,7 +41,7 @@ CREATE TABLE retail_sales
 );
 ```
 
-### 2. Data Exploration & Cleaning
+## 2. Data Exploration & Cleaning
 
 - **Record Count**: Determine the total number of records in the dataset.
 - **Customer Count**: Find out how many unique customers are in the dataset.
@@ -79,15 +79,11 @@ WHERE sale_date = '2022-11-05';
 
 2. **Write a SQL query to retrieve all transactions where the category is 'Clothing' and the quantity sold is more than 4 in the month of Nov-2022**:
 ```sql
-SELECT 
-  *
+SELECT  *
 FROM retail_sales
-WHERE 
-    category = 'Clothing'
-    AND 
-    TO_CHAR(sale_date, 'YYYY-MM') = '2022-11'
-    AND
-    quantity >= 4
+WHERE category = 'Clothing' and  quantiy >=4 and  sale_date >= '2022-11-01' 
+  AND sale_date < '2022-12-01'
+limit 50 
 ```
 
 3. **Write a SQL query to calculate the total sales (total_sale) for each category.**:
@@ -107,6 +103,11 @@ SELECT
 FROM retail_sales
 WHERE category = 'Beauty'
 ```
+```sql
+select  category, avg(age) from retail_sales
+where category ='Beauty'
+group by category
+```
 
 5. **Write a SQL query to find all transactions where the total_sale is greater than 1000.**:
 ```sql
@@ -121,10 +122,7 @@ SELECT
     gender,
     COUNT(*) as total_trans
 FROM retail_sales
-GROUP 
-    BY 
-    category,
-    gender
+GROUP BY  category,gender
 ORDER BY 1
 ```
 
@@ -186,6 +184,21 @@ SELECT
 FROM hourly_sale
 GROUP BY shift
 ```
+or
+```sql
+SELECT 
+    CASE 
+        WHEN EXTRACT(HOUR FROM sale_time) < 12 THEN 'Morning' 
+        WHEN EXTRACT(HOUR FROM sale_time) BETWEEN 12 AND 17 THEN 'Afternoon' 
+        ELSE 'Evening' 
+    END AS shift,
+    COUNT(*) AS number_of_orders
+FROM 
+    retail_sales
+GROUP BY 
+    shift
+```
+
 
 ## Findings
 
